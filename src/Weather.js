@@ -33,8 +33,15 @@ export default function Weather(props) {
         <input type="search" placeholder="Type a city" onChange={updateCity} />
         <input type="submit" value="Search" />
       </form>
-
       <Temperature temp={temp} humidity={humidity} wind={wind} descr={descr} />
+      <a
+        href="https://github.com/bohdanalu/weather-react"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Open-source code
+      </a>
+      <span>by Bohdana Lutska</span>
     </div>
   );
 }
