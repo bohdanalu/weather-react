@@ -1,47 +1,64 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Temperature from "./Temperature";
+import CurrentDate from "./CurrentDate";
+import "./Weather.css";
+import WeatherIcon from "./WeatherIcon";
 
 export default function Weather(props) {
-  let [city, setCity] = useState("");
-  let [temp, setTemp] = useState(null);
-  let [humidity, setHumidity] = useState(null);
-  let [wind, setWind] = useState(null);
-  let [descr, setDescr] = useState(null);
-  const key = "ca7fbad26013d3ec86767b6a85456620";
+  let [weatherData, setWeatherData] = useState({});
+  let [city, setCity] = useState(props.defaultCity);
+  let [ready, setReady] = useState(false);
 
-  function updateCity(e) {
-    setCity(e.target.value);
+  function showTemp(response) {
+    setWeatherData({
+      temp: Math.round(response.data.main.temp),
+      humidity: Math.round(response.data.main.humidity),
+      wind: Math.round(response.data.wind.speed),
+      descr: response.data.weather[0].description,
+      icon: response.data.weather[0].icon,
+      date: new Date(response.data.dt * 1000),
+    });
+    setReady(true);
   }
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
 
-  function handlerSubmit(e) {
-    e.preventDefault();
+  function search() {
+    console.log(city);
+    const key = "ca7fbad26013d3ec86767b6a85456620";
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
+
     axios.get(url).then(showTemp);
   }
 
-  function showTemp(response) {
-    setTemp(Math.round(response.data.main.temp));
-    setHumidity(Math.round(response.data.main.humidity));
-    setWind(Math.round(response.data.wind.speed));
-    setDescr(response.data.weather[0].description);
+  function handelSubmit(e) {
+    e.preventDefault();
+    search();
   }
 
-  return (
-    <div className="Weather">
-      <form onSubmit={handlerSubmit}>
-        <input type="search" placeholder="Type a city" onChange={updateCity} />
-        <input type="submit" value="Search" />
-      </form>
-      <Temperature temp={temp} humidity={humidity} wind={wind} descr={descr} />
-      <a
-        href="https://github.com/bohdanalu/weather-react"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Open-source code
-      </a>
-      <span>by Bohdana Lutska</span>
-    </div>
-  );
+  function getCity(e) {
+    setCity(e.target.value);
+  }
+
+  if (ready) {
+    return (
+      <div className="Weather">
+        <form onSubmit={handelSubmit}>
+          <input type="search" placeholder="Type a city" onChange={getCity} />
+          <input type="submit" value="Search" />
+        </form>
+        <h2>{city}</h2>
+        <CurrentDate date={weatherData.date} />
+        <WeatherIcon code={weatherData.icon} />
+        <Temperature
+          temp={weatherData.temp}
+          humidity={weatherData.humidity}
+          wind={weatherData.wind}
+          descr={weatherData.descr}
+        />
+      </div>
+    );
+  } else {
+    search();
+    return "Loading...";
+  }
 }
