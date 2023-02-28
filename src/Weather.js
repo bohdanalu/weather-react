@@ -6,6 +6,7 @@ import "./Weather.css";
 import WeatherIcon from "./WeatherIcon";
 
 export default function Weather(props) {
+  const searchEl = document.querySelector("#search");
   let [weatherData, setWeatherData] = useState({});
   let [city, setCity] = useState(props.defaultCity);
   let [ready, setReady] = useState(false);
@@ -23,7 +24,6 @@ export default function Weather(props) {
   }
 
   function search() {
-    console.log(city);
     const key = "ca7fbad26013d3ec86767b6a85456620";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
 
@@ -33,6 +33,7 @@ export default function Weather(props) {
   function handelSubmit(e) {
     e.preventDefault();
     search();
+    searchEl.value = "";
   }
 
   function getCity(e) {
@@ -43,7 +44,12 @@ export default function Weather(props) {
     return (
       <div className="Weather">
         <form onSubmit={handelSubmit}>
-          <input type="search" placeholder="Type a city" onChange={getCity} />
+          <input
+            id="search"
+            type="search"
+            placeholder="Type a city"
+            onChange={getCity}
+          />
           <input type="submit" value="Search" />
         </form>
         <h2>{city}</h2>

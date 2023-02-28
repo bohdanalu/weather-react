@@ -1,13 +1,13 @@
 import React from "react";
-import "./Temperature.css";
+import WeatherTemperature from "./WeatherTemperature";
 
 export default function Temperature(props) {
   return (
     <div className="Temperature">
+      <strong>
+        <WeatherTemperature celsium={props.temp} />
+      </strong>
       <ul>
-        <li>
-          Temperature: <strong>{props.temp}</strong> °C
-        </li>
         <li>
           Humidity: <strong>{props.humidity}</strong> %
         </li>

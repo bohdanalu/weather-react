@@ -1,0 +1,15 @@
+.WeatherTemperature {
+  margin-left: 10px;
+}
+.WeatherTemperature .temp {
+  font-size: 26px;
+}
+
+.WeatherTemperature .active {
+  color: blue;
+}
+
+.WeatherTemperature a {
+  cursor: pointer;
+  color: inherit;
+}
