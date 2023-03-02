@@ -4,6 +4,7 @@ import Temperature from "./Temperature";
 import CurrentDate from "./CurrentDate";
 import "./Weather.css";
 import WeatherIcon from "./WeatherIcon";
+import WeatherTemperature from "./WeatherTemperature";
 
 export default function Weather(props) {
   const searchEl = document.querySelector("#search");
@@ -45,22 +46,29 @@ export default function Weather(props) {
       <div className="Weather">
         <form onSubmit={handelSubmit}>
           <input
+            className="input-search"
             id="search"
             type="search"
             placeholder="Type a city"
             onChange={getCity}
           />
-          <input type="submit" value="Search" />
+          <input className="btn-search" type="submit" value="Search" />
         </form>
         <h2>{city}</h2>
-        <CurrentDate date={weatherData.date} />
-        <WeatherIcon code={weatherData.icon} />
-        <Temperature
-          temp={weatherData.temp}
-          humidity={weatherData.humidity}
-          wind={weatherData.wind}
-          descr={weatherData.descr}
-        />
+        <div className="temperature-block">
+          <div>
+            <CurrentDate date={weatherData.date} />
+            <WeatherIcon code={weatherData.icon} />
+            <strong>
+              <WeatherTemperature celsium={weatherData.temp} />
+            </strong>
+          </div>
+          <Temperature
+            humidity={weatherData.humidity}
+            wind={weatherData.wind}
+            descr={weatherData.descr}
+          />
+        </div>
       </div>
     );
   } else {

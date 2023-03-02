@@ -1,0 +1,7 @@
+.Temperature ul {
+  list-style: none;
+}
+
+.Temperature .descr {
+  text-transform: capitalize;
+}
