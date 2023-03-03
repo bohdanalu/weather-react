@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import Temperature from "./Temperature";
 import CurrentDate from "./CurrentDate";
-import "./Weather.css";
 import WeatherIcon from "./WeatherIcon";
 import WeatherTemperature from "./WeatherTemperature";
+import WeatherForecast from "./WeatherForecast";
+import "./Weather.css";
 
 export default function Weather(props) {
   const searchEl = document.querySelector("#search");
@@ -14,6 +15,7 @@ export default function Weather(props) {
 
   function showTemp(response) {
     setWeatherData({
+      coordinate: response.data.coord,
       temp: Math.round(response.data.main.temp),
       humidity: Math.round(response.data.main.humidity),
       wind: Math.round(response.data.wind.speed),
@@ -58,7 +60,7 @@ export default function Weather(props) {
         <div className="temperature-block">
           <div>
             <CurrentDate date={weatherData.date} />
-            <WeatherIcon code={weatherData.icon} />
+            <WeatherIcon code={weatherData.icon} size={54} />
             <strong>
               <WeatherTemperature celsium={weatherData.temp} />
             </strong>
@@ -69,6 +71,7 @@ export default function Weather(props) {
             descr={weatherData.descr}
           />
         </div>
+        <WeatherForecast coordinate={weatherData.coordinate} city={city} />
       </div>
     );
   } else {
