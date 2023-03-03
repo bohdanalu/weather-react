@@ -1,17 +1,15 @@
 .WeatherTemperature {
   margin-left: 10px;
 }
-.WeatherTemperature .temp {
-  font-size: 26px;
+
+.WeatherTemperature-temp {
+  font-size: 54px;
+  line-height: 1;
+  font-weight: bold;
+  display: flex;
 }
 
-.WeatherTemperature .active {
-  color: #517fe1;
-}
-
-.WeatherTemperature a {
-  margin: 0 5px;
-  cursor: pointer;
-  color: inherit;
-  text-decoration: none;
+.WeatherTemperature-unit {
+  align-self: start;
+  font-size: 18px;
 }

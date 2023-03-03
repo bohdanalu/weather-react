@@ -9,12 +9,12 @@ import "./Weather.css";
 
 export default function Weather(props) {
   const searchEl = document.querySelector("#search");
-  let [weatherData, setWeatherData] = useState({});
+  let [weatherData, setWeatherData] = useState({ ready: false });
   let [city, setCity] = useState(props.defaultCity);
-  let [ready, setReady] = useState(false);
 
   function showTemp(response) {
     setWeatherData({
+      ready: true,
       coordinate: response.data.coord,
       temp: Math.round(response.data.main.temp),
       humidity: Math.round(response.data.main.humidity),
@@ -22,14 +22,13 @@ export default function Weather(props) {
       descr: response.data.weather[0].description,
       icon: response.data.weather[0].icon,
       date: new Date(response.data.dt * 1000),
+      city: response.data.name,
     });
-    setReady(true);
   }
 
   function search() {
     const key = "ca7fbad26013d3ec86767b6a85456620";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
-
     axios.get(url).then(showTemp);
   }
 
@@ -43,7 +42,7 @@ export default function Weather(props) {
     setCity(e.target.value);
   }
 
-  if (ready) {
+  if (weatherData.ready) {
     return (
       <div className="Weather">
         <form onSubmit={handelSubmit}>
@@ -56,14 +55,14 @@ export default function Weather(props) {
           />
           <input className="btn-search" type="submit" value="Search" />
         </form>
-        <h2>{city}</h2>
+        <h2>{weatherData.city}</h2>
         <div className="temperature-block">
           <div>
             <CurrentDate date={weatherData.date} />
-            <WeatherIcon code={weatherData.icon} size={54} />
-            <strong>
+            <div className="Weather-wrap">
+              <WeatherIcon code={weatherData.icon} size={54} />
               <WeatherTemperature celsium={weatherData.temp} />
-            </strong>
+            </div>
           </div>
           <Temperature
             humidity={weatherData.humidity}
@@ -71,7 +70,7 @@ export default function Weather(props) {
             descr={weatherData.descr}
           />
         </div>
-        <WeatherForecast coordinate={weatherData.coordinate} city={city} />
+        <WeatherForecast coordinate={weatherData.coordinate} />
       </div>
     );
   } else {

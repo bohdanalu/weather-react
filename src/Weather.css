@@ -18,7 +18,7 @@
 
 .Weather,
 .app-footer {
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto 5px;
 }
 
@@ -53,5 +53,10 @@
 .Weather .temperature-block {
   display: flex;
   gap: 20px;
+  align-items: center;
+}
+
+.Weather-wrap {
+  display: flex;
   align-items: center;
 }

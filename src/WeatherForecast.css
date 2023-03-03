@@ -5,11 +5,7 @@
 }
 
 .WeatherForecast li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  width: calc(100% / 6);
   padding: 10px;
   background: radial-gradient(
     circle,
@@ -20,18 +16,4 @@
 
 .WeatherForecast li:not(:last-child) {
   border-right: 1px solid #cac8c8;
-}
-
-.WeatherForecastTempWrap {
-  display: flex;
-  gap: 5px;
-  align-items: flex-end;
-}
-
-.WeatherForecastTemp-max {
-  color: #1d1d43;
-}
-
-.WeatherForecastTemp-min {
-  font-size: 15px;
 }

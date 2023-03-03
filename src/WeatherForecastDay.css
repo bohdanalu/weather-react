@@ -1,0 +1,21 @@
+.WeatherForecastDay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.WeatherForecastDay-wrap {
+  display: flex;
+  gap: 5px;
+  align-items: flex-end;
+}
+
+.WeatherForecastDay-max {
+  color: #1d1d43;
+}
+
+.WeatherForecastDay-min {
+  font-size: 15px;
+}

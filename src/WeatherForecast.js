@@ -1,40 +1,46 @@
-import React, { useState } from "react";
-import WeatherIcon from "./WeatherIcon";
+import React, { useState, useEffect } from "react";
+import WeatherForecastDay from "./WeatherForecastDay";
 import "./WeatherForecast.css";
 import axios from "axios";
 
 export default function WeatherForecast(props) {
   let [loaded, setLoaded] = useState(false);
   let [forecast, setForecast] = useState(null);
+
   function handelResponse(response) {
-    setForecast(response.data);
+    setForecast(response.data.daily);
     setLoaded(true);
-    console.log(forecast);
   }
+
+  function load() {
+    const apiKey = "72bb9dab46b9ec3d65f423c63f27a9b8";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${props.coordinate.lat}&lon=${props.coordinate.lon}&appid=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(handelResponse);
+  }
+  useEffect(() => {
+    setLoaded(false);
+  }, [props.coordinate]);
 
   if (loaded) {
     return (
       <div className="WeatherForecast">
         <ul>
-          <li>
-            <span>Thu</span>
-            <WeatherIcon code="01d" size={36} />
-            <div className="WeatherForecastTempWrap">
-              <span className="WeatherForecastTemp-max">19°</span>
-
-              <span className="WeatherForecastTemp-min">10°</span>
-            </div>
-          </li>
+          {forecast.map(function (dailyForecast, index) {
+            if (index < 5) {
+              return (
+                <li key={index}>
+                  <WeatherForecastDay data={dailyForecast} />
+                </li>
+              );
+            } else {
+              return null;
+            }
+          })}
         </ul>
       </div>
     );
   } else {
-    const apiKey = "72bb9dab46b9ec3d65f423c63f27a9b8";
-    // let latitude = props.coordinate.lat;
-    // let longitude = props.coordinate.lon;
-    // let apiUrl = `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-    let apiUrl = `https://api.openweathermap.org/data/2.5/forecast/daily?q=${props.city}&appid=${apiKey}`;
-    axios.get(apiUrl).then(handelResponse);
+    load();
     return null;
   }
 }
