@@ -44,13 +44,14 @@
   );
 }
 
-.Weather h2 {
+h2 {
   font-size: 20px;
   text-transform: uppercase;
   color: #1d1d43;
+  margin: 15px 0 5px;
 }
 
-.Weather .temperature-block {
+.temperature-block {
   display: flex;
   gap: 20px;
   align-items: center;
